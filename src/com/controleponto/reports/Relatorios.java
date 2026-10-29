@@ -1,54 +1,52 @@
 
 package com.controleponto.reports;
 
-import java.util.List;
-
-import com.controleponto.model.Funcionario;
-import com.controleponto.model.RegistroPonto;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import com.controleponto.utils.Conexao;
 
 public class Relatorios {
 
-    public void listarFuncionarios(List<Funcionario> funcionarios) {
-        System.out.println("\n=== FUNCIONÁRIOS CADASTRADOS ===");
+    public void listarFuncionarios() {
+        String sql = "SELECT funcionario.nome, registro_ponto.tipo, "
+                   + "registro_ponto.data_hora "
+                   + "FROM funcionario "
+                   + "INNER JOIN registro_ponto "
+                   + "ON funcionario.id = registro_ponto.funcionario_id";
 
-        for (Funcionario funcionario : funcionarios) {
-            System.out.println(
-                funcionario.getIdFuncionario() + " - "
-                + funcionario.getNome() + " - "
-                + funcionario.getCargo()
-            );
+        try (Connection con = Conexao.conectar();
+             PreparedStatement stmt = con.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                System.out.println("Funcionário: " + rs.getString("nome"));
+                System.out.println("Tipo: " + rs.getString("tipo"));
+                System.out.println("Data: " + rs.getTimestamp("data_hora"));
+                System.out.println("--------------------");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro: " + e.getMessage());
         }
     }
 
-    public void contarRegistrosPorTipo(List<RegistroPonto> registros) {
-        int entradas = 0;
-        int saidasIntervalo = 0;
-        int retornosIntervalo = 0;
-        int saidasFinais = 0;
+    public void contarRegistrosPorTipo() {
+        String sql = "SELECT tipo, COUNT(*) AS total "
+                   + "FROM registro_ponto GROUP BY tipo";
 
-        for (RegistroPonto registro : registros) {
-            switch (registro.getTipo()) {
-                case "ENTRADA":
-                    entradas++;
-                    break;
-                case "SAIDA_INTERVALO":
-                    saidasIntervalo++;
-                    break;
-                case "RETORNO_INTERVALO":
-                    retornosIntervalo++;
-                    break;
-                case "SAIDA_FINAL":
-                    saidasFinais++;
-                    break;
-                default:
-                    break;
+        try (Connection con = Conexao.conectar();
+             PreparedStatement stmt = con.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                System.out.println(rs.getString("tipo") + ": "
+                                   + rs.getInt("total"));
             }
-        }
 
-        System.out.println("\n=== REGISTROS POR TIPO ===");
-        System.out.println("Entradas: " + entradas);
-        System.out.println("Saídas para intervalo: " + saidasIntervalo);
-        System.out.println("Retornos do intervalo: " + retornosIntervalo);
-        System.out.println("Saídas finais: " + saidasFinais);
+        } catch (SQLException e) {
+            System.out.println("Erro: " + e.getMessage());
+        }
     }
 }

@@ -1,84 +1,113 @@
 
 package com.controleponto.controller;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-import com.controleponto.model.Funcionario;
+import com.controleponto.utils.Conexao;
 
 public class FuncionarioController {
 
-    private List<Funcionario> funcionarios = new ArrayList<>();
-    private int proximoId = 1;
+    public void cadastrar(String nome, String cpf,
+                          String cargo, double salario) {
+        String sql = "INSERT INTO funcionario " + "(nome, cpf, cargo, salario) VALUES (?, ?, ?, ?)";
 
-    public void cadastrar(String nome, String cargo, String matricula) {
-        Funcionario funcionario = new Funcionario(
-            proximoId, nome, cargo, matricula
-        );
+        try (Connection con = Conexao.conectar();
+             PreparedStatement stmt = con.prepareStatement(sql)) {
 
-        funcionarios.add(funcionario);
-        proximoId++;
+            stmt.setString(1, nome);
+            stmt.setString(2, cpf);
+            stmt.setString(3, cargo);
+            stmt.setDouble(4, salario);
 
-        System.out.println("Funcionário cadastrado com sucesso!");
+            stmt.executeUpdate();
+            System.out.println("Funcionário cadastrado!");
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao cadastrar: " + e.getMessage());
+        }
     }
 
     public void listar() {
-        if (funcionarios.isEmpty()) {
-            System.out.println("Nenhum funcionário cadastrado.");
-            return;
-        }
+        String sql = "SELECT * FROM funcionario";
 
-        for (Funcionario funcionario : funcionarios) {
-            System.out.println(
-                "ID: " + funcionario.getIdFuncionario()
-                + " | Nome: " + funcionario.getNome()
-                + " | Cargo: " + funcionario.getCargo()
-                + " | Matrícula: " + funcionario.getMatricula()
-            );
-        }
-    }
+        try (Connection con = Conexao.conectar();
+             PreparedStatement stmt = con.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
 
-    public Funcionario buscarPorId(int id) {
-        for (Funcionario funcionario : funcionarios) {
-            if (funcionario.getIdFuncionario() == id) {
-                return funcionario;
+            while (rs.next()) {
+                System.out.println(
+                    rs.getInt("id") + " - "
+                    + rs.getString("nome") + " - "
+                    + rs.getString("cpf") + " - "
+                    + rs.getString("cargo") + " - R$ "
+                    + rs.getDouble("salario")
+                );
             }
-        }
 
-        return null;
+        } catch (SQLException e) {
+            System.out.println("Erro ao listar: " + e.getMessage());
+        }
     }
 
-    public boolean atualizar(int id, String nome, String cargo, String matricula) {
-        Funcionario funcionario = buscarPorId(id);
+    public boolean buscarPorId(int id) {
+        String sql = "SELECT * FROM funcionario WHERE id = ?";
 
-        if (funcionario == null) {
-            System.out.println("Funcionário não encontrado.");
-            return false;
+        try (Connection con = Conexao.conectar();
+             PreparedStatement stmt = con.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                System.out.println("Nome: " + rs.getString("nome"));
+                return true;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro: " + e.getMessage());
         }
 
-        funcionario.setNome(nome);
-        funcionario.setCargo(cargo);
-        funcionario.setMatricula(matricula);
-
-        System.out.println("Funcionário atualizado com sucesso!");
-        return true;
+        System.out.println("Funcionário não encontrado.");
+        return false;
     }
 
-    public boolean excluir(int id) {
-        Funcionario funcionario = buscarPorId(id);
+    public void atualizar(int id, String nome, String cpf,
+                          String cargo, double salario) {
+        String sql = "UPDATE funcionario SET nome=?, cpf=?, "
+                   + "cargo=?, salario=? WHERE id=?";
 
-        if (funcionario == null) {
-            System.out.println("Funcionário não encontrado.");
-            return false;
+        try (Connection con = Conexao.conectar();
+             PreparedStatement stmt = con.prepareStatement(sql)) {
+
+            stmt.setString(1, nome);
+            stmt.setString(2, cpf);
+            stmt.setString(3, cargo);
+            stmt.setDouble(4, salario);
+            stmt.setInt(5, id);
+
+            stmt.executeUpdate();
+            System.out.println("Funcionário atualizado!");
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao atualizar: " + e.getMessage());
         }
-
-        funcionarios.remove(funcionario);
-
-        System.out.println("Funcionário excluído com sucesso!");
-        return true;
     }
 
-    public List<Funcionario> getFuncionarios() {
-        return funcionarios;
+    public void excluir(int id) {
+        String sql = "DELETE FROM funcionario WHERE id=?";
+
+        try (Connection con = Conexao.conectar();
+             PreparedStatement stmt = con.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+            System.out.println("Funcionário excluído!");
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao excluir: " + e.getMessage());
+        }
     }
 }

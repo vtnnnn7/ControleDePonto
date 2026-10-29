@@ -1,20 +1,24 @@
+
 package com.controleponto.model;
 
 public class Funcionario {
 
     private int idFuncionario;
     private String nome;
+    private String cpf;
     private String cargo;
-    private String matricula;
+    private double salario;
 
     public Funcionario() {
     }
 
-    public Funcionario(int idFuncionario, String nome, String cargo, String matricula) {
+    public Funcionario(int idFuncionario, String nome, String cpf,
+                       String cargo, double salario) {
         this.idFuncionario = idFuncionario;
         this.nome = nome;
+        this.cpf = cpf;
         this.cargo = cargo;
-        this.matricula = matricula;
+        this.salario = salario;
     }
 
     public int getIdFuncionario() {
@@ -33,6 +37,14 @@ public class Funcionario {
         this.nome = nome;
     }
 
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
     public String getCargo() {
         return cargo;
     }
@@ -41,11 +53,11 @@ public class Funcionario {
         this.cargo = cargo;
     }
 
-    public String getMatricula() {
-        return matricula;
+    public double getSalario() {
+        return salario;
     }
 
-    public void setMatricula(String matricula) {
-        this.matricula = matricula;
+    public void setSalario(double salario) {
+        this.salario = salario;
     }
 }

@@ -1,48 +1,53 @@
 
 package com.controleponto.controller;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
-import com.controleponto.model.RegistroPonto;
+import com.controleponto.utils.Conexao;
 
 public class RegistroPontoController {
 
-    private List<RegistroPonto> registros = new ArrayList<>();
-    private int proximoId = 1;
-
     public void registrar(int idFuncionario, String tipo) {
-        RegistroPonto registro = new RegistroPonto(
-            proximoId,
-            idFuncionario,
-            LocalDateTime.now(),
-            tipo
-        );
+        String sql = "INSERT INTO registro_ponto "
+                   + "(funcionario_id, data_hora, tipo) VALUES (?, ?, ?)";
 
-        registros.add(registro);
-        proximoId++;
+        try (Connection con = Conexao.conectar();
+             PreparedStatement stmt = con.prepareStatement(sql)) {
 
-        System.out.println("Ponto registrado com sucesso!");
+            stmt.setInt(1, idFuncionario);
+            stmt.setObject(2, LocalDateTime.now());
+            stmt.setString(3, tipo);
+
+            stmt.executeUpdate();
+            System.out.println("Ponto registrado!");
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao registrar: " + e.getMessage());
+        }
     }
 
     public void listar() {
-        if (registros.isEmpty()) {
-            System.out.println("Nenhum registro de ponto.");
-            return;
-        }
+        String sql = "SELECT * FROM registro_ponto";
 
-        for (RegistroPonto registro : registros) {
-            System.out.println(
-                "Registro: " + registro.getIdRegistro()
-                + " | Funcionário: " + registro.getIdFuncionario()
-                + " | Data e hora: " + registro.getDataHora()
-                + " | Tipo: " + registro.getTipo()
-            );
-        }
-    }
+        try (Connection con = Conexao.conectar();
+             PreparedStatement stmt = con.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
 
-    public List<RegistroPonto> getRegistros() {
-        return registros;
+            while (rs.next()) {
+                System.out.println(
+                    "Registro: " + rs.getInt("id")
+                    + " | Funcionário: " + rs.getInt("funcionario_id")
+                    + " | Data: " + rs.getTimestamp("data_hora")
+                    + " | Tipo: " + rs.getString("tipo")
+                );
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao listar: " + e.getMessage());
+        }
     }
 }

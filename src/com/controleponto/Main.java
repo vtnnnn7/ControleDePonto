@@ -1,165 +1,113 @@
 
 package com.controleponto;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
-
 import com.controleponto.controller.FuncionarioController;
 import com.controleponto.controller.RegistroPontoController;
-import com.controleponto.model.Funcionario;
-import com.controleponto.model.RegistroPonto;
 import com.controleponto.reports.Relatorios;
 
 public class Main {
 
     public static void main(String[] args) {
-        Scanner entrada = new Scanner(System.in);
+
+        Scanner sc = new Scanner(System.in);
 
         FuncionarioController funcionarios = new FuncionarioController();
-        RegistroPontoController pontos = new RegistroPontoController();
+        RegistroPontoController registros = new RegistroPontoController();
         Relatorios relatorios = new Relatorios();
 
-        int opcao;
+        int opcao = -1;
 
-        do {
-            System.out.println("\n=== SISTEMA DE CONTROLE DE PONTO ===");
-            System.out.println("Equipe: [coloque os nomes do grupo]");
+        while (opcao != 0) {
+            System.out.println("\n--- CONTROLE DE PONTO ---");
             System.out.println("1 - Cadastrar funcionário");
-            System.out.println("2 - Registrar ponto");
-            System.out.println("3 - Listar funcionários");
-            System.out.println("4 - Atualizar funcionário");
-            System.out.println("5 - Excluir funcionário");
-            System.out.println("6 - Listar registros de ponto");
-            System.out.println("7 - Relatório de registros por tipo");
+            System.out.println("2 - Listar funcionários");
+            System.out.println("3 - Atualizar funcionário");
+            System.out.println("4 - Excluir funcionário");
+            System.out.println("5 - Registrar ponto");
+            System.out.println("6 - Listar pontos");
+            System.out.println("7 - Relatório de funcionários");
+            System.out.println("8 - Contar registros por tipo");
             System.out.println("0 - Sair");
-            System.out.print("Escolha uma opção: ");
+            System.out.print("Escolha: ");
 
-            while (!entrada.hasNextInt()) {
-                System.out.print("Digite um número válido: ");
-                entrada.nextLine();
-            }
-
-            opcao = entrada.nextInt();
-            entrada.nextLine();
+            opcao = Integer.parseInt(sc.nextLine());
 
             switch (opcao) {
-                case 1:
+                case 1 -> {
                     System.out.print("Nome: ");
-                    String nome = entrada.nextLine();
+                    String nome = sc.nextLine();
+
+                    System.out.print("CPF: ");
+                    String cpf = sc.nextLine();
 
                     System.out.print("Cargo: ");
-                    String cargo = entrada.nextLine();
+                    String cargo = sc.nextLine();
 
-                    System.out.print("Matrícula: ");
-                    String matricula = entrada.nextLine();
+                    System.out.print("Salário: ");
+                    double salario = Double.parseDouble(
+                        sc.nextLine().replace(",", ".")
+                    );
 
-                    funcionarios.cadastrar(nome, cargo, matricula);
-                    break;
+                    funcionarios.cadastrar(nome, cpf, cargo, salario);
+                }
 
-                case 2:
+                case 2 -> funcionarios.listar();
+
+                case 3 -> {
                     System.out.print("ID do funcionário: ");
-                    int idFuncionario = entrada.nextInt();
-                    entrada.nextLine();
+                    int id = Integer.parseInt(sc.nextLine());
 
-                    Funcionario funcionario = funcionarios.buscarPorId(idFuncionario);
+                    if (funcionarios.buscarPorId(id)) {
+                        System.out.print("Novo nome: ");
+                        String nome = sc.nextLine();
 
-                    if (funcionario == null) {
-                        System.out.println("Funcionário não encontrado.");
-                        break;
-                    }
+                        System.out.print("Novo CPF: ");
+                        String cpf = sc.nextLine();
 
-                    System.out.println("1 - ENTRADA");
-                    System.out.println("2 - SAIDA_INTERVALO");
-                    System.out.println("3 - RETORNO_INTERVALO");
-                    System.out.println("4 - SAIDA_FINAL");
-                    System.out.print("Tipo do ponto: ");
+                        System.out.print("Novo cargo: ");
+                        String cargo = sc.nextLine();
 
-                    int tipo = entrada.nextInt();
-                    entrada.nextLine();
-
-                    String[] tipos = {
-                        "ENTRADA", "SAIDA_INTERVALO",
-                        "RETORNO_INTERVALO", "SAIDA_FINAL"
-                    };
-
-                    if (tipo >= 1 && tipo <= 4) {
-                        pontos.registrar(idFuncionario, tipos[tipo - 1]);
-                    } else {
-                        System.out.println("Tipo inválido.");
-                    }
-                    break;
-
-                case 3:
-                    funcionarios.listar();
-                    break;
-
-                case 4:
-                    System.out.print("ID do funcionário: ");
-                    int idAtualizar = entrada.nextInt();
-                    entrada.nextLine();
-
-                    System.out.print("Novo nome: ");
-                    String novoNome = entrada.nextLine();
-
-                    System.out.print("Novo cargo: ");
-                    String novoCargo = entrada.nextLine();
-
-                    System.out.print("Nova matrícula: ");
-                    String novaMatricula = entrada.nextLine();
-
-                    if (funcionarios.atualizar(
-                            idAtualizar, novoNome, novoCargo, novaMatricula)) {
-                        System.out.println("Funcionário atualizado!");
-                    } else {
-                        System.out.println("Funcionário não encontrado.");
-                    }
-                    break;
-
-                case 5:
-                    System.out.print("ID do funcionário: ");
-                    int idExcluir = entrada.nextInt();
-                    entrada.nextLine();
-
-                    boolean possuiPonto = false;
-
-                    for (RegistroPonto registro : pontos.getRegistros()) {
-                        if (registro.getIdFuncionario() == idExcluir) {
-                            possuiPonto = true;
-                            break;
-                        }
-                    }
-
-                    if (possuiPonto) {
-                        System.out.println(
-                            "Não é possível excluir: existem pontos registrados."
+                        System.out.print("Novo salário: ");
+                        double salario = Double.parseDouble(
+                            sc.nextLine().replace(",", ".")
                         );
-                    } else if (funcionarios.excluir(idExcluir)) {
-                        System.out.println("Funcionário excluído!");
-                    } else {
-                        System.out.println("Funcionário não encontrado.");
+
+                        funcionarios.atualizar(
+                            id, nome, cpf, cargo, salario
+                        );
                     }
-                    break;
+                }
 
-                case 6:
-                    pontos.listar();
-                    break;
+                case 4 -> {
+                    System.out.print("ID do funcionário: ");
+                    int id = Integer.parseInt(sc.nextLine());
 
-                case 7:
-                    List<RegistroPonto> registros = pontos.getRegistros();
-                    relatorios.contarRegistrosPorTipo(registros);
-                    break;
+                    funcionarios.excluir(id);
+                }
 
-                case 0:
-                    System.out.println("Encerrando o sistema...");
-                    break;
+                case 5 -> {
+                    System.out.print("ID do funcionário: ");
+                    int id = Integer.parseInt(sc.nextLine());
 
-                default:
-                    System.out.println("Opção inválida!");
+                    System.out.print("Tipo (Entrada ou Saída): ");
+                    String tipo = sc.nextLine();
+
+                    registros.registrar(id, tipo);
+                }
+
+                case 6 -> registros.listar();
+
+                case 7 -> relatorios.listarFuncionarios();
+
+                case 8 -> relatorios.contarRegistrosPorTipo();
+
+                case 0 -> System.out.println("Programa encerrado.");
+
+                default -> System.out.println("Opção inválida.");
             }
+        }
 
-        } while (opcao != 0);
-
-        entrada.close();
+        sc.close();
     }
 }

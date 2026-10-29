@@ -10,10 +10,10 @@ public class Conexao {
     private static final String URL =
         "jdbc:mysql://localhost:3306/controle_ponto";
 
-    private static final String USUARIO = "root";
+    private static final String USUARIO = "Vtn";
 
-    // Troque pela senha que você definiu no MySQL.
-    private static final String SENHA = "SUA_SENHA";
+    
+    private static final String SENHA = "Vitolas1212@_";
 
     public static Connection conectar() throws SQLException {
         return DriverManager.getConnection(URL, USUARIO, SENHA);
