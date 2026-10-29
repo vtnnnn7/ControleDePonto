@@ -13,7 +13,7 @@ public class Conexao {
     private static final String USUARIO = "Vtn";
 
     
-    private static final String SENHA = "Vitolas1212@_";
+    private static final String SENHA = System.getenv("DB_SENHA");
 
     public static Connection conectar() throws SQLException {
         return DriverManager.getConnection(URL, USUARIO, SENHA);
