@@ -11,43 +11,57 @@ import com.controleponto.utils.Conexao;
 
 public class RegistroPontoController {
 
-    public void registrar(int idFuncionario, String tipo) {
-        String sql = "INSERT INTO registro_ponto "
-                   + "(funcionario_id, data_hora, tipo) VALUES (?, ?, ?)";
+	public void registrar(int idFuncionario, String tipo) {
+		String sql = "INSERT INTO registro_ponto " + "(funcionario_id, data_hora, tipo) VALUES (?, ?, ?)";
 
-        try (Connection con = Conexao.conectar();
-             PreparedStatement stmt = con.prepareStatement(sql)) {
+		try (Connection con = Conexao.conectar(); PreparedStatement stmt = con.prepareStatement(sql)) {
 
-            stmt.setInt(1, idFuncionario);
-            stmt.setObject(2, LocalDateTime.now());
-            stmt.setString(3, tipo);
+			stmt.setInt(1, idFuncionario);
+			stmt.setObject(2, LocalDateTime.now());
+			stmt.setString(3, tipo);
 
-            stmt.executeUpdate();
-            System.out.println("Ponto registrado!");
+			stmt.executeUpdate();
+			System.out.println("Ponto registrado!");
 
-        } catch (SQLException e) {
-            System.out.println("Erro ao registrar: " + e.getMessage());
-        }
-    }
+		} catch (SQLException e) {
+			System.out.println("Erro ao registrar: " + e.getMessage());
+		}
+	}
 
-    public void listar() {
-        String sql = "SELECT * FROM registro_ponto";
+	public void listar() {
+		String sql = "SELECT * FROM registro_ponto";
 
-        try (Connection con = Conexao.conectar();
-             PreparedStatement stmt = con.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+		try (Connection con = Conexao.conectar();
+				PreparedStatement stmt = con.prepareStatement(sql);
+				ResultSet rs = stmt.executeQuery()) {
 
-            while (rs.next()) {
-                System.out.println(
-                    "Registro: " + rs.getInt("id")
-                    + " | Funcionário: " + rs.getInt("funcionario_id")
-                    + " | Data: " + rs.getTimestamp("data_hora")
-                    + " | Tipo: " + rs.getString("tipo")
-                );
-            }
+			while (rs.next()) {
+				System.out.println("Registro: " + rs.getInt("id") + " | Funcionário: " + rs.getInt("funcionario_id")
+						+ " | Data: " + rs.getTimestamp("data_hora") + " | Tipo: " + rs.getString("tipo"));
+			}
 
-        } catch (SQLException e) {
-            System.out.println("Erro ao listar: " + e.getMessage());
-        }
-    }
+		} catch (SQLException e) {
+			System.out.println("Erro ao listar: " + e.getMessage());
+		}
+	}
+
+	public void excluir(int id) {
+		String sql = "DELETE FROM registro_ponto WHERE id = ?";
+
+		try (Connection con = Conexao.conectar(); PreparedStatement stmt = con.prepareStatement(sql)) {
+
+			stmt.setInt(1, id);
+
+			int linhas = stmt.executeUpdate();
+
+			if (linhas > 0) {
+				System.out.println("Registro de ponto excluido!");
+			} else {
+				System.out.println("Registro de ponto nao encontrado!");
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Erro ao excluir registro: " + e.getMessage());
+		}
+	}
 }

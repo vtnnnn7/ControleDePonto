@@ -88,83 +88,105 @@ public class Main {
 				switch (opcao) {
 
 				case 1 -> {
-				    String continuar = "s";
+					String continuar = "s";
 
-				    while (continuar.equalsIgnoreCase("s")) {
+					while (continuar.equalsIgnoreCase("s")) {
 
-				        System.out.println("\n--- Cadastro de funcionario ---");
+						System.out.println("\n--- Cadastro de funcionario ---");
 
-				        System.out.print("Nome: ");
-				        String nome = sc.nextLine();
+						System.out.print("Nome: ");
+						String nome = sc.nextLine();
 
-				        System.out.print("CPF: ");
-				        String cpf = sc.nextLine();
+						System.out.print("CPF: ");
+						String cpf = sc.nextLine();
 
-				        System.out.print("Cargo: ");
-				        String cargo = sc.nextLine();
+						System.out.print("Cargo: ");
+						String cargo = sc.nextLine();
 
-				        System.out.print("Salario: ");
-				        double salario = Double.parseDouble(
-				                sc.nextLine().replace(",", "."));
+						System.out.print("Salario: ");
+						double salario = Double.parseDouble(sc.nextLine().replace(",", "."));
 
-				        funcionarioController.cadastrar(
-				                nome, cpf, cargo, salario);
+						funcionarioController.cadastrar(nome, cpf, cargo, salario);
 
-				        System.out.print("Deseja cadastrar outro funcionario? (s/n): ");
-				        continuar = sc.nextLine();
-				    }
+						System.out.print("Deseja cadastrar outro funcionario? (s/n): ");
+						continuar = sc.nextLine();
+					}
 				}
 
 				case 2 -> funcionarioController.listar();
 
 				case 3 -> {
-					System.out.print("ID do funcionario: ");
-					int id = Integer.parseInt(sc.nextLine());
+					String continuar = "s";
 
-					if (funcionarioController.buscarPorId(id)) {
+					while (continuar.equalsIgnoreCase("s")) {
 
-						System.out.print("Novo nome: ");
-						String nome = sc.nextLine();
+						System.out.println("\n--- Atualizar funcionario ---");
 
-						System.out.print("Novo CPF: ");
-						String cpf = sc.nextLine();
+						funcionarioController.listar();
 
-						System.out.print("Novo cargo: ");
-						String cargo = sc.nextLine();
+						System.out.print("ID do funcionario que deseja atualizar: ");
+						int id = Integer.parseInt(sc.nextLine());
 
-						System.out.print("Novo salario: ");
-						double salario = Double.parseDouble(sc.nextLine().replace(",", "."));
+						if (funcionarioController.buscarPorId(id)) {
 
-						funcionarioController.atualizar(id, nome, cpf, cargo, salario);
+							System.out.print("Novo nome: ");
+							String nome = sc.nextLine();
 
+							System.out.print("Novo CPF: ");
+							String cpf = sc.nextLine();
+
+							System.out.print("Novo cargo: ");
+							String cargo = sc.nextLine();
+
+							System.out.print("Novo salario: ");
+							double salario = Double.parseDouble(sc.nextLine().replace(",", "."));
+
+							funcionarioController.atualizar(id, nome, cpf, cargo, salario);
+
+							System.out.println("\nFuncionario atualizado!");
+							funcionarioController.listar();
+
+						}
+
+						System.out.print("Deseja atualizar outro funcionario? (s/n): ");
+						continuar = sc.nextLine();
 					}
 				}
 
 				case 4 -> {
+					funcionarioController.listar();
+
 					System.out.print("ID do funcionario para excluir: ");
 					int id = Integer.parseInt(sc.nextLine());
 
-					funcionarioController.excluir(id);
+					System.out.print("Tem certeza que deseja excluir? (s/n): ");
+					String confirmacao = sc.nextLine();
+
+					if (confirmacao.equalsIgnoreCase("s")) {
+						funcionarioController.excluir(id);
+					} else {
+						System.out.println("Exclusao cancelada!");
+					}
 				}
 
 				case 5 -> {
-				    String continuar = "s";
+					String continuar = "s";
 
-				    while (continuar.equalsIgnoreCase("s")) {
+					while (continuar.equalsIgnoreCase("s")) {
 
-				        System.out.println("\n--- Registro de ponto ---");
+						System.out.println("\n--- Registro de ponto ---");
 
-				        System.out.print("ID do funcionario: ");
-				        int id = Integer.parseInt(sc.nextLine());
+						System.out.print("ID do funcionario: ");
+						int id = Integer.parseInt(sc.nextLine());
 
-				        System.out.print("Tipo de ponto: ");
-				        String tipo = sc.nextLine();
+						System.out.print("Tipo de ponto: ");
+						String tipo = sc.nextLine();
 
-				        registroController.registrar(id, tipo);
+						registroController.registrar(id, tipo);
 
-				        System.out.print("Deseja registrar outro ponto? (s/n): ");
-				        continuar = sc.nextLine();
-				    }
+						System.out.print("Deseja registrar outro ponto? (s/n): ");
+						continuar = sc.nextLine();
+					}
 				}
 
 				case 6 -> registroController.listar();

@@ -1,55 +1,59 @@
-
 package com.controleponto.model;
 
 import java.time.LocalDateTime;
 
 public class RegistroPonto {
 
-    private int idRegistro;
-    private int idFuncionario;
-    private LocalDateTime dataHora;
-    private String tipo;
+	private int id;
+	private Funcionario funcionario;
+	private LocalDateTime dataHora;
+	private String tipo;
 
-    public RegistroPonto() {
-    }
+	public RegistroPonto() {
+	}
 
-    public RegistroPonto(int idRegistro, int idFuncionario,
-                         LocalDateTime dataHora, String tipo) {
-        this.idRegistro = idRegistro;
-        this.idFuncionario = idFuncionario;
-        this.dataHora = dataHora;
-        this.tipo = tipo;
-    }
+	public RegistroPonto(int id, Funcionario funcionario, LocalDateTime dataHora, String tipo) {
+		this.id = id;
+		this.funcionario = funcionario;
+		this.dataHora = dataHora;
+		this.tipo = tipo;
+	}
 
-    public int getIdRegistro() {
-        return idRegistro;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public void setIdRegistro(int idRegistro) {
-        this.idRegistro = idRegistro;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public int getIdFuncionario() {
-        return idFuncionario;
-    }
+	public Funcionario getFuncionario() {
+		return funcionario;
+	}
 
-    public void setIdFuncionario(int idFuncionario) {
-        this.idFuncionario = idFuncionario;
-    }
+	public void setFuncionario(Funcionario funcionario) {
+		this.funcionario = funcionario;
+	}
 
-    public LocalDateTime getDataHora() {
-        return dataHora;
-    }
+	public LocalDateTime getDataHora() {
+		return dataHora;
+	}
 
-    public void setDataHora(LocalDateTime dataHora) {
-        this.dataHora = dataHora;
-    }
+	public void setDataHora(LocalDateTime dataHora) {
+		this.dataHora = dataHora;
+	}
 
-    public String getTipo() {
-        return tipo;
-    }
+	public String getTipo() {
+		return tipo;
+	}
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+
+	@Override
+	public String toString() {
+		return "RegistroPonto{" + "id=" + id + ", funcionario=" + funcionario + ", dataHora=" + dataHora + ", tipo='"
+				+ tipo + '\'' + '}';
+	}
 }
