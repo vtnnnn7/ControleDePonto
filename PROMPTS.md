@@ -2,22 +2,95 @@
 
 Registro exigido pelo edital (item 8, observação 5): cada prompt usado, a fonte e o que o grupo fez com a resposta.
 
-- **Ferramenta:** Claude (Anthropic), pelo aplicativo claude.ai
 - **Projeto:** ControleDePonto — Banco de Dados, FAESA 2026/2, Prof. Howard Roatti
 - **Observação:** os prompts abaixo estão transcritos como foram enviados.
+- **Organização:** a Parte 1 reúne os prompts usados no início do projeto (conexão, controllers e testes). A Parte 2 reúne os prompts da conversa com o Claude, usada para completar o CRUD, o README e este arquivo.
 
 > **Antes de entregar, o grupo deve:**
-> 1. conferir a coluna "O que o grupo fez" de cada registro e corrigir o que não corresponder ao que foi feito de fato;
-> 2. incluir na seção "Registros anteriores" os prompts de conversas anteriores sobre este projeto, caso existam.
+> 1. preencher todos os campos marcados com `[preencher]` ou `[confirmar]` e apagar as marcas;
+> 2. apagar este bloco de aviso.
 
 ---
 
-## Registros
+# Parte 1 — Prompts do início do projeto
+
+Em todos os registros desta parte, a data e o integrante que usou o prompt estão pendentes de preenchimento.
+
+### Prompt A — Criação da classe de conexão com o banco de dados
+
+- **Data:** [preencher]
+- **Fonte (ferramenta de IA):** ChatGPT (OpenAI)
+- **Integrante:** [preencher]
+- **Prompt:**
+
+  > Estou desenvolvendo um projeto em Java chamado ControleDePonto para a faculdade. Crie uma classe Conexao.java responsável por conectar a aplicação a um banco de dados MySQL chamado controle_ponto, utilizando JDBC. Organize o código em um pacote chamado com.controleponto.utils e crie um método estático para estabelecer a conexão com o banco. Explique como configurar a URL, o usuário e a senha do banco de dados.
+
+- **O que o grupo fez:** a resposta serviu como base para implementar a conexão entre a aplicação Java e o banco de dados MySQL.
+
+### Prompt B — Configuração segura da conexão
+
+- **Data:** [preencher]
+- **Fonte (ferramenta de IA):** ChatGPT (OpenAI)
+- **Integrante:** [preencher]
+- **Prompt:**
+
+  > Melhore a classe Conexao.java para obter a senha do banco de dados por meio de uma variável de ambiente, em vez de deixar a senha diretamente escrita no código. Utilize JDBC e trate possíveis erros de conexão com SQLException. Explique como configurar a variável de ambiente no Windows.
+
+- **O que o grupo fez:** a orientação foi utilizada para ajustar a classe de conexão, evitando manter a senha diretamente no código-fonte e permitindo tratar erros durante a conexão.
+
+### Prompt C — Teste de conexão com o banco de dados
+
+- **Data:** [preencher]
+- **Fonte (ferramenta de IA):** ChatGPT (OpenAI)
+- **Integrante:** [preencher]
+- **Prompt:**
+
+  > Crie um teste simples em Java para verificar se a aplicação consegue se conectar ao banco de dados MySQL controle_ponto utilizando a classe Conexao.java. Mostre uma mensagem informando se a conexão foi estabelecida ou se ocorreu algum erro. Explique como executar o teste na IDE Eclipse.
+
+- **O que o grupo fez:** o exemplo serviu para verificar a comunicação entre o Java e o MySQL antes de testar as demais funcionalidades do sistema.
+
+### Prompt D — Criação do controller de funcionários
+
+- **Data:** [preencher]
+- **Fonte (ferramenta de IA):** ChatGPT (OpenAI)
+- **Integrante:** [preencher]
+- **Prompt:**
+
+  > Estou desenvolvendo um sistema de controle de ponto em Java com MySQL e JDBC. Crie uma classe FuncionarioController.java, no pacote com.controleponto.controller, para realizar operações de cadastro, listagem, atualização e exclusão de funcionários. Considere a tabela funcionario, que possui os campos id, nome, cpf, cargo e salario. Utilize a classe Conexao.java para acessar o banco de dados e trate erros que possam ocorrer durante as consultas e operações.
+
+- **O que o grupo fez:** a resposta foi utilizada como referência para implementar as operações de gerenciamento de funcionários e integrar o código Java com a tabela correspondente no banco de dados.
+
+### Prompt E — Criação do controller de registros de ponto
+
+- **Data:** [preencher]
+- **Fonte (ferramenta de IA):** ChatGPT (OpenAI)
+- **Integrante:** [preencher]
+- **Prompt:**
+
+  > Crie uma classe RegistroPontoController.java, no pacote com.controleponto.controller, para cadastrar e listar registros de ponto de funcionários. A tabela registro_ponto possui os campos id, funcionario_id, data_hora e tipo. Utilize Java, JDBC e a classe Conexao.java. Considere a chave estrangeira que relaciona os registros de ponto aos funcionários e trate possíveis erros ao inserir ou consultar os registros.
+
+- **O que o grupo fez:** a orientação foi utilizada para implementar o gerenciamento dos registros de ponto, considerando o relacionamento entre as tabelas funcionario e registro_ponto.
+
+### Prompt F — Testes e correção de erros
+
+- **Data:** [preencher]
+- **Fonte (ferramenta de IA):** ChatGPT (OpenAI)
+- **Integrante:** [preencher]
+- **Prompt:**
+
+  > Estou testando meu projeto ControleDePonto, desenvolvido em Java com JDBC e MySQL. Ajude-me a identificar e corrigir erros nas operações de cadastro, listagem, atualização e exclusão de funcionários, no registro de pontos e nos relatórios SQL. Explique as causas dos erros e proponha correções compatíveis com a estrutura atual do projeto.
+
+- **O que o grupo fez:** as orientações foram utilizadas durante os testes do sistema, para compreender mensagens de erro, verificar o relacionamento entre as tabelas e corrigir problemas encontrados durante a execução.
+
+---
+
+# Parte 2 — Conversa com o Claude (completar CRUD, README e PROMPTS.md)
+
+- **Ferramenta:** Claude (Anthropic), pelo aplicativo claude.ai
+- **Data:** 30/10/2026
 
 ### Prompt 1 — Pedido para completar o item 3 (CRUD)
 
-- **Data:** 30/10/2026
-- **Fonte:** Claude (claude.ai)
 - **Anexos enviados:** lista de tarefas do projeto (itens 1 a 6) e arquivo ZIP com a página de avaliações da disciplina
 - **Prompt:**
 
@@ -30,8 +103,6 @@ Registro exigido pelo edital (item 8, observação 5): cada prompt usado, a font
 
 ### Prompt 2 — Envio do edital e do repositório público
 
-- **Data:** 30/10/2026
-- **Fonte:** Claude (claude.ai)
 - **Anexo enviado:** `BD_trab.pdf` (edital do trabalho)
 - **Prompt:**
 
@@ -50,8 +121,6 @@ Registro exigido pelo edital (item 8, observação 5): cada prompt usado, a font
 
 ### Prompt 3 — README
 
-- **Data:** 30/10/2026
-- **Fonte:** Claude (claude.ai)
 - **Prompt:**
 
   > faça o readme para subir pro github
@@ -59,27 +128,21 @@ Registro exigido pelo edital (item 8, observação 5): cada prompt usado, a font
 - **Resposta:** `README.md` com descrição do sistema, funcionalidades, modelo de dados, estrutura de pastas e passo a passo para compilar e executar no Linux (banco, usuário, variável `DB_SENHA`, driver JDBC), mais uma tabela de problemas comuns. A IA testou os comandos de compilação e execução com o driver MariaDB.
 - **O que o grupo fez:** [confirmar] revisou o texto, testou os comandos na VM Linux, preencheu o link do vídeo e subiu o arquivo no repositório.
 
-### Prompt 4 — Este arquivo
+### Prompt 4 — Criação do PROMPTS.md
 
-- **Data:** 30/10/2026
-- **Fonte:** Claude (claude.ai)
 - **Prompt:**
 
   > sim, faça o prompts.md
 
-- **Resposta:** este arquivo, `PROMPTS.md`.
-- **O que o grupo fez:** [confirmar] revisou o conteúdo, completou a seção "Registros anteriores" e subiu o arquivo no repositório.
+- **Resposta:** a primeira versão deste arquivo.
+- **O que o grupo fez:** [confirmar] revisou o conteúdo e subiu o arquivo no repositório.
 
----
+### Prompt 5 — Inclusão dos prompts do início do projeto
 
-## Registros anteriores
-
-> O histórico do projeto indica que a estrutura inicial, a conexão com o MySQL e os primeiros cadastros foram feitos antes desta conversa. Se IA foi usada nessas etapas, registre aqui cada prompt no mesmo formato acima (data, fonte, prompt, resposta, o que o grupo fez). Se não foi usada, apague esta seção.
-
-### Prompt A — [preencher]
-
-- **Data:**
-- **Fonte:**
 - **Prompt:**
-- **Resposta:**
-- **O que o grupo fez:**
+
+  > meu amigo me mandou os prompts que ele usou para fazer os codigos, preciso enviar para voce para compor no promptsmd?
+
+  Em seguida, o grupo enviou os seis prompts da Parte 1, com a descrição de como cada resposta foi usada.
+- **Resposta:** esta versão do arquivo, com a Parte 1 incluída e a numeração reorganizada.
+- **O que o grupo fez:** [confirmar] revisou o conteúdo e subiu o arquivo no repositório.
