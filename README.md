@@ -4,7 +4,7 @@ Sistema de console em **Java** com banco de dados **MySQL** (JDBC) para controle
 
 ## Vídeo de demonstração
 
-[https://youtube.com/shorts/M52dIwO-MM4?is=cLf82xbAFNkkd9p4]
+https://youtube.com/shorts/M52dIwO-MM4?is=cLf82xbAFNkkd9p4
 
 ## Integrantes
 
